@@ -1,0 +1,35 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: argocd-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: argocd.rules
+      rules:
+        - alert: ArgoCDApplicationOutOfSync
+          expr: argocd_app_info{sync_status="OutOfSync"} == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Argo CD application is OutOfSync"
+            description: "Application {{ $labels.name }} is OutOfSync for more than 5 minutes."
+        - alert: ArgoCDApplicationUnhealthy
+          expr: argocd_app_info{health_status!="Healthy"} == 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Argo CD application is unhealthy"
+            description: "Application {{ $labels.name }} health is {{ $labels.health_status }}."
+        - alert: ArgoCDRepoServerDown
+          expr: up{job=~".*argocd.*repo.*"} == 0
+          for: 3m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Argo CD repo-server metrics target is down"
+            description: "Prometheus cannot scrape the Argo CD repo-server metrics endpoint."

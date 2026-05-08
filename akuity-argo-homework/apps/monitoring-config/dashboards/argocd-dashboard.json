@@ -1,0 +1,37 @@
+{
+  "title": "Argo CD Support Dashboard",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Applications by Sync Status",
+      "targets": [
+        {
+          "expr": "count by (sync_status) (argocd_app_info)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Applications by Health Status",
+      "targets": [
+        {
+          "expr": "count by (health_status) (argocd_app_info)",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Reconciliation Activity",
+      "targets": [
+        {
+          "expr": "rate(argocd_app_reconcile_count[5m])",
+          "refId": "C"
+        }
+      ]
+    }
+  ]
+}

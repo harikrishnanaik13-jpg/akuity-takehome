@@ -125,10 +125,4 @@ Troubleshooting details are included in:
 docs/troubleshooting.md
 ```
 
-## Interview Talking Points
 
-- Explain why the root app/app-of-apps pattern is useful.
-- Explain how Argo CD detects drift between Git and the live cluster.
-- Explain the role of repo-server, application-controller, argocd-server, and Kubernetes API server.
-- Explain how Prometheus scrapes Argo CD metrics.
-- Explain how alerts help support engineers detect sync failures, health issues, and controller/repo-server problems.
